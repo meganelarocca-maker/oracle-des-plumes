@@ -1,0 +1,24 @@
+# Données sensibles
+.env
+*.env
+
+# Données brutes et clean (trop lourdes pour GitHub)
+data/raw/
+data/clean/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Docker
+postgres_data/
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log

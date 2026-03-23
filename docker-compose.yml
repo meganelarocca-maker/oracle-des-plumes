@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: oracle_des_plumes_db
+    environment:
+      POSTGRES_DB: oracle_des_plumes
+      POSTGRES_USER: datamuse
+      POSTGRES_PASSWORD: plumes2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:
+  
