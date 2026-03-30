@@ -7,7 +7,7 @@ SELECT
     MAX(date) as annee_max
 FROM livres;
 
---KPI 2 enrichi — "Qualité par langue"-"Dans quelle langue écrivent les auteurs les mieux notés ?"
+--KPI 2 enrichi — "Qualité par langue"-"Dans quelle langue écrivent les auteurs les mieux notés ?"-je garde les niches potentielle car, à mon sens, ils peuvent détenir une péptite
 SELECT 
     langue,
     COUNT(*) as nb_livres,
@@ -16,14 +16,15 @@ SELECT
 FROM livres
 WHERE note IS NOT NULL
 GROUP BY langue
-ORDER BY note_moyenne DESC;
+HAVING COUNT(*) >= 5
+ORDER BY note_moyenne DESC; nb_livres DESC;
 
 -- KPI 3 : auteurs émergents
 SELECT auteurs,
        COUNT(*) as nb_livres,
        AVG(note) as note_moyenne,
        SUM(nb_avis) as total_avis,
-       AVG(note) * LOG(SUM(nb_avis) + 1) / COUNT(*) as score
+       ROUND((AVG(note) * LOG(SUM(nb_avis) + 1) / COUNT(*))::numeric, 2) AS score
 FROM livres
 WHERE note IS NOT NULL
   AND date >= 2023

@@ -18,4 +18,4 @@ CREATE TABLE livres (
     nationalite TEXT,
     naissance   INTEGER,
     sexe        TEXT
-);
+)
