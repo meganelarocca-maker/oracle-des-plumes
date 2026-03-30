@@ -74,10 +74,10 @@ layout = html.Div(
         html.Div([
             html.H3("✨ Limites à garder en tête :", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize":"22px"}),
             html.Ul([
-                html.Li("Biais anglophone — les APIs referencent majoritairement des contenus en anglais"),
-                html.Li("69% des auteurs non enrichis par Wikidata — coherent avec leur caractere emergent"),
-                html.Li("Dataset non exhaustif — echantillon des APIs disponibles sur la periode 2023-2025"),
-                html.Li("Un auteur emergent peut deja etre sous contrat — ces données ne le reflètent pas")
+                html.Li("Biais anglophone — les APIs referencent majoritairement des contenus en anglais."),
+                html.Li("69% des auteurs non enrichis par Wikidata — coherent avec leur caractere emergent."),
+                html.Li("Dataset non exhaustif — echantillon des APIs disponibles sur la periode 2023-2025."),
+                html.Li("Un auteur emergent peut deja etre sous contrat — ces données ne le reflètent pas.")
             ])
         ], style=CARD_STYLE),
 
