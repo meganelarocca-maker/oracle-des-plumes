@@ -27,57 +27,59 @@ layout = html.Div(
         ], style={
             "color": BERRY,
             "fontFamily": "Georgia, serif",
-            "marginBottom": "25px"
+            "marginBottom": "25px",
+            "fontSize": "45px"
         }),
 
         # Bloc 1
         html.Div([
-            html.H3("✨ À quoi sert l'outil ?", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize":"22px"}),
-            html.P("Cet outil permet d'identifier des auteurs émergents à fort potentiel pour faciliter la sélection de nouveaux talents à éditer.")
+            html.H3("✨ À quoi sert l'outil ?", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize": "30px"}),
+            html.P("Cet outil permet d'identifier des auteurs émergents à fort potentiel pour faciliter la sélection de nouveaux talents à éditer.", style={"fontSize": "25px"}),
         ], style=CARD_STYLE),
 
         # Bloc 2
         html.Div([
-            html.H3("✨ Comment sont identifiés les auteurs émergents ?", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize":"22px"}),
-            html.P("Le score d'un auteur émergent est calculé à partir de plusieurs indicateurs combinés, afin d'évaluer son potentiel éditorial."),
-            html.P("Il prend en compte :"),
+            html.H3("✨ Comment sont identifiés les auteurs émergents ?", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize": "30px"}),
+            html.P("Le score d'un auteur émergent est calculé à partir de plusieurs indicateurs combinés, afin d'évaluer son potentiel éditorial.", style={"fontSize": "25px"}),
+            html.P("Il prend en compte :", style={"fontSize": "25px"}),
             html.Ul([
-                html.Li("la note moyenne des ouvrages"),
-                html.Li("le nombre d'avis du public"),
-                html.Li("le nombre de livres publiés (rareté)")
+                html.Li("la note moyenne des ouvrages", style={"fontSize": "25px"}),
+                html.Li("le nombre d'avis du public", style={"fontSize": "25px"}),
+                html.Li("le nombre de livres publiés (rareté)", style={"fontSize": "25px"})
             ]),
             html.Div(
                 "Score = AVG(note) × LOG(SUM(nb_avis) + 1) / COUNT(livres)",
                 style={
                     "backgroundColor": "rgba(255, 248, 235, 0.9)",
-                    "padding": "15px",
+                    "padding": "20px",
                     "borderRadius": "8px",
                     "fontWeight": "bold",
                     "color": "#5a3b2a",
                     "fontFamily": "Georgia, serif",
-                    "marginTop": "10px",
-                    "marginBottom": "15px"
+                    "fontSize": "28px",
+                    "marginTop": "20px",
+                    "marginBottom": "28px"
                 }
             ),
-            html.P("Un score élevé signifie que l'auteur présente un fort potentiel, avec une bonne réception du public et un positionnement encore émergent."),
-            html.P("Un nombre faible de livres indique que l'auteur est encore peu publié, ce qui renforce son caractère émergent."),
-            html.P("Une note élevée traduit une réception positive des ouvrages auprès des lecteurs.")
+            html.P("Un score élevé signifie que l'auteur présente un fort potentiel, avec une bonne réception du public et un positionnement encore émergent.", style={"fontSize": "25px"}),
+            html.P("Un nombre faible de livres indique que l'auteur est encore peu publié, ce qui renforce son caractère émergent.", style={"fontSize": "25px"}),
+            html.P("Une note élevée traduit une réception positive des ouvrages auprès des lecteurs.", style={"fontSize": "25px"})
         ], style=CARD_STYLE),
 
         # Bloc 3
         html.Div([
-            html.H3("✨ Comment utiliser la page Auteurs ?", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize":"22px"}),
-            html.P("Utilisez les filtres en haut de la page pour affiner le classement selon la nationalité ou le niveau d'émergence. Chaque ligne représente un auteur à potentiel — vous pouvez exporter la sélection en CSV pour un suivi editorial.")
+            html.H3("✨ Comment utiliser la page Auteurs ?", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize": "30px"}),
+            html.P("Utilisez les filtres en haut de la page pour affiner le classement selon la nationalité ou le niveau d'émergence. Chaque ligne représente un auteur à potentiel — vous pouvez exporter la sélection en CSV pour un suivi editorial.", style={"fontSize": "25px"})
         ], style=CARD_STYLE),
 
         # Bloc 4
         html.Div([
-            html.H3("✨ Limites à garder en tête :", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize":"22px"}),
+            html.H3("✨ Limites à garder en tête :", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize": "30px"}),
             html.Ul([
-                html.Li("Biais anglophone — les APIs referencent majoritairement des contenus en anglais."),
-                html.Li("69% des auteurs non enrichis par Wikidata — coherent avec leur caractere emergent."),
-                html.Li("Dataset non exhaustif — echantillon des APIs disponibles sur la periode 2023-2025."),
-                html.Li("Un auteur emergent peut deja etre sous contrat — ces données ne le reflètent pas.")
+                html.Li("Biais anglophone — les APIs referencent majoritairement des contenus en anglais.", style={"fontSize": "25px"}),
+                html.Li("69% des auteurs non enrichis par Wikidata — coherent avec leur caractere emergent.", style={"fontSize": "25px"}),
+                html.Li("Dataset non exhaustif — echantillon des APIs disponibles sur la periode 2023-2025.", style={"fontSize": "25px"}),
+                html.Li("Un auteur emergent peut deja etre sous contrat — ces données ne le reflètent pas.", style={"fontSize": "25px"})
             ])
         ], style=CARD_STYLE),
 
@@ -87,10 +89,8 @@ layout = html.Div(
         "margin": "0 auto",
         "padding": "40px 30px",
         "fontFamily": BODY_FONT,
-        "fontSize":"16px",
+        "fontSize": "25px",
         "color": "#1E1E1E",
-        "minHeight":"100vh",
+        "minHeight": "100vh",
     }
 )
-    
-    

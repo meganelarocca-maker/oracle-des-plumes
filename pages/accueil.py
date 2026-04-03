@@ -37,15 +37,15 @@ fig_natio = px.bar(
     orientation="h",
     title="Top 10 nationalités",
     color_discrete_sequence=["#C4956A"],
-    labels={"nb_livres": "Nombre de livres", "nationalite": ""}
+    labels={"nb_livres": "Nombre de livres", "nationalite": "", "fontSize":"20px"}
 )
 fig_natio.update_layout(
     paper_bgcolor="rgba(255,248,235,0.85)",
     plot_bgcolor="rgba(255,248,235,0.0)",
     font=dict(family="Georgia, serif", color="#4A1942", size=16),
     title_font=dict(size=24),
-    yaxis=dict(autorange="reversed", tickfont=dict(size=14)),
-    xaxis=dict(tickfont=dict(size=14)),
+    yaxis=dict(autorange="reversed", tickfont=dict(size=16)),
+    xaxis=dict(tickfont=dict(size=16)),
     margin=dict(l=10, r=20, t=50, b=30)
 )
 fig_natio.update_traces(
@@ -63,10 +63,10 @@ fig_annee = px.bar(
 fig_annee.update_layout(
     paper_bgcolor="rgba(255,248,235,0.85)",
     plot_bgcolor="rgba(255,248,235,0.0)",
-    font=dict(family="Georgia, serif", color="#4A1942", size=16),
+    font=dict(family="Georgia, serif", color="#4A1942", size=18),
     title_font=dict(size=24),
-    xaxis=dict(tickfont=dict(size=14)),
-    yaxis=dict(tickfont=dict(size=14)),
+    xaxis=dict(type="category",tickfont=dict(size=16)),
+    yaxis=dict(tickfont=dict(size=16)),
     margin=dict(l=10, r=20, t=50, b=30)
 )
 fig_annee.update_traces(
@@ -104,8 +104,11 @@ layout = html.Div(
     },
     children=[
 
-        html.H2("Vue d'ensemble du catalogue",
-                style={"color": BERRY, "marginBottom": "50px", "fontSize": "32px", "fontFamily": "Georgia, serif"}),
+        html.H2([
+            html.Span("✨", style={"marginLeft": "8px"}),
+            "Vue d'ensemble du catalogue",
+            html.Span("✨", style={"marginLeft": "8px"})],
+            style={"color": BERRY, "marginBottom": "50px", "fontSize": "32px", "fontFamily": "Georgia, serif", "font-size":"45px"}),
 
         # KPIs
         html.Div(
@@ -118,19 +121,19 @@ layout = html.Div(
             },
             children=[
                 html.Div(style=CARD_STYLE, children=[
-                    html.H4("📚 Livres", style={"fontSize": "20px"}),
+                    html.H4("📚 Livres", style={"fontSize": "25px"}),
                     html.H2(str(nb_livres), style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
-                    html.H4("✍️ Auteurs", style={"fontSize": "20px"}),
+                    html.H4("✍️ Auteurs", style={"fontSize": "25px"}),
                     html.H2(str(nb_auteurs), style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
-                    html.H4("🌍 Nationalités", style={"fontSize": "20px"}),
+                    html.H4("🌍 Nationalités", style={"fontSize": "25px"}),
                     html.H2(str(nb_nationalites), style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
-                    html.H4("⭐ Note moyenne", style={"fontSize": "20px"}),
+                    html.H4("⭐ Note moyenne", style={"fontSize": "25px"}),
                     html.H2(str(note_moyenne), style={"fontSize": "48px", "margin": "0"})
                 ]),
             ]

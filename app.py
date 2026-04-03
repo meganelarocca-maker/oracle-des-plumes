@@ -34,13 +34,13 @@ app.layout = html.Div(
                 "boxShadow": "4px 0px 10px rgba(0,0,0,0.3)"
             },
             children=[
-                html.H2("L'Oracle des Plumes", style={"color": "#ecc400"}),
+                html.H2("L'Oracle des Plumes", style={"color": "#ecc400", "font-size": "30px"}),
                 html.Hr(style={"borderColor": "#ecc400"}),
 
-                dcc.Link("Accueil", href="/", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none"}),
-                dcc.Link("Explorer", href="/explorer", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none"}),
-                dcc.Link("Auteurs", href="/auteurs", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none"}),
-                dcc.Link("Guide d’utilisation", href="/guide", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none"}),
+                dcc.Link("Accueil", href="/", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
+                dcc.Link("Catalogue", href="/catalogue", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
+                dcc.Link("Auteurs", href="/auteurs", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
+                dcc.Link("Guide d’utilisation", href="/guide", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
             ]
         ),
 
