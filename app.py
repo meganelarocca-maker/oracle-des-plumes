@@ -39,7 +39,7 @@ app.layout = html.Div(
 
                 dcc.Link("Accueil", href="/", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
                 dcc.Link("Catalogue", href="/catalogue", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
-                dcc.Link("Auteurs", href="/auteurs", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
+                dcc.Link("Auteurs Emergents", href="/auteurs", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
                 dcc.Link("Guide d’utilisation", href="/guide", style={"display": "block", "color": "white", "marginBottom": "10px", "textDecoration": "none", "font-size": "22px"}),
             ]
         ),
