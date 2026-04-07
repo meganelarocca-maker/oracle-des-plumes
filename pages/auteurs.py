@@ -139,12 +139,38 @@ def afficher_auteurs(nationalite, emergence):
             "border": "1px solid rgba(196, 149, 106, 0.3)",
             "minWidth": "100px", "maxWidth": "200px", "whiteSpace": "normal",
         },
-        style_data_conditional=[
-            {"if": {"filter_query": '{niveau_emergence} = "Signal faible — tres emergent"'}, "backgroundColor": "rgba(107, 143, 113, 0.15)"},
-            {"if": {"filter_query": '{niveau_emergence} = "Signal moyen — emergent confirme"'}, "backgroundColor": "rgba(196, 149, 106, 0.15)"},
-            {"if": {"filter_query": '{niveau_emergence} = "Signal fort — commence a percer"'}, "backgroundColor": "rgba(163, 103, 105, 0.15)"},
-            {"if": {"row_index": "odd"}, "backgroundColor": "rgba(255, 248, 235, 0.5)"},
-        ],
+style_data_conditional=[
+    {
+        "if": {
+            "filter_query": '{niveau_emergence} = "Signal faible — tres emergent"',
+            "column_id": "niveau_emergence"
+        },
+        "backgroundColor": "#6B8F71",
+        "color": "white",
+        "fontWeight": "bold",
+        "borderRadius": "8px",
+    },
+    {
+        "if": {
+            "filter_query": '{niveau_emergence} = "Signal moyen — emergent confirme"',
+            "column_id": "niveau_emergence"
+        },
+        "backgroundColor": "#C4956A",
+        "color": "white",
+        "fontWeight": "bold",
+        "borderRadius": "8px",
+    },
+    {
+        "if": {
+            "filter_query": '{niveau_emergence} = "Signal fort — commence a percer"',
+            "column_id": "niveau_emergence"
+        },
+        "backgroundColor": "#A26769",
+        "color": "white",
+        "fontWeight": "bold",
+        "borderRadius": "8px",
+    },
+],
         page_size=20,
         sort_action="native",
     )
