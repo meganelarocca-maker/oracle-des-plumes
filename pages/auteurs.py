@@ -1,5 +1,5 @@
 import dash
-from dash import html, dcc, Input, Output, callback, dash_table
+from dash import html, dcc, Input, Output, callback, dash_table, State
 from src.db import query
 from src.ml_model import entrainer_modele, predire
 import pandas as pd
@@ -188,8 +188,8 @@ def afficher_auteurs(nationalite, emergence):
 @callback(
     Output("download-csv", "data"),
     Input("btn-export", "n_clicks"),
-    Input("filtre-nationalite", "value"),
-    Input("filtre-emergence", "value"),
+    State("filtre-nationalite", "value"),
+    State("filtre-emergence", "value"),
     prevent_initial_call=True
 )
 def exporter_csv(n_clicks, nationalite, emergence):
