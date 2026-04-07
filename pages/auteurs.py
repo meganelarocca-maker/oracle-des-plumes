@@ -1,6 +1,7 @@
 import dash
 from dash import html, dcc, Input, Output, callback, dash_table
 from src.db import query
+from src.ml_model import entrainer_modele, predire
 import pandas as pd
 
 dash.register_page(__name__, path="/auteurs")
@@ -19,6 +20,9 @@ options_emergence = [
     {"label": "Signal moyen — emergent confirme", "value": "Signal moyen — emergent confirme"},
     {"label": "Signal fort — commence a percer", "value": "Signal fort — commence a percer"},
 ]
+
+# Entrainement du modele au lancement
+model, le_nationalite = entrainer_modele()
 
 layout = html.Div(
     children=[
@@ -98,11 +102,33 @@ def get_df(nationalite, emergence):
         ORDER BY score_emergence DESC
         LIMIT 50
     """
+
     df = query(sql)
+
+    df["probabilite_succes"] = df.apply(
+        lambda row: predire(
+            model, le_nationalite,
+            note=row["note_moyenne"],
+            nb_avis=row["total_avis"],
+            nb_livres=row["nb_livres"],
+            nationalite=row["nationalite"],
+            derniere_publication=row["dernier_livre"]
+        ),
+        axis=1
+    )
+
     if nationalite:
         df = df[df["nationalite"] == nationalite]
     if emergence:
         df = df[df["niveau_emergence"] == emergence]
+    df["ordre_emergence"] = df["niveau_emergence"].map({
+    "Signal faible — tres emergent": 1,
+    "Signal moyen — emergent confirme": 2,
+    "Signal fort — commence a percer": 3
+})
+
+    df = df.sort_values(["ordre_emergence", "probabilite_succes"], ascending=[True, False])
+    df = df.drop(columns=["ordre_emergence"])
     return df
 
 
@@ -125,6 +151,7 @@ def afficher_auteurs(nationalite, emergence):
             {"name": "Score", "id": "score_emergence"},
             {"name": "Statut Wikidata", "id": "statut_wikidata"},
             {"name": "Niveau émergence", "id": "niveau_emergence"},
+            {"name": "Proba succes %", "id": "probabilite_succes"},
         ],
         style_table={"overflowX": "auto", "width": "100%"},
         style_header={
@@ -139,38 +166,20 @@ def afficher_auteurs(nationalite, emergence):
             "border": "1px solid rgba(196, 149, 106, 0.3)",
             "minWidth": "100px", "maxWidth": "200px", "whiteSpace": "normal",
         },
-style_data_conditional=[
-    {
-        "if": {
-            "filter_query": '{niveau_emergence} = "Signal faible — tres emergent"',
-            "column_id": "niveau_emergence"
-        },
-        "backgroundColor": "#6B8F71",
-        "color": "white",
-        "fontWeight": "bold",
-        "borderRadius": "8px",
-    },
-    {
-        "if": {
-            "filter_query": '{niveau_emergence} = "Signal moyen — emergent confirme"',
-            "column_id": "niveau_emergence"
-        },
-        "backgroundColor": "#C4956A",
-        "color": "white",
-        "fontWeight": "bold",
-        "borderRadius": "8px",
-    },
-    {
-        "if": {
-            "filter_query": '{niveau_emergence} = "Signal fort — commence a percer"',
-            "column_id": "niveau_emergence"
-        },
-        "backgroundColor": "#A26769",
-        "color": "white",
-        "fontWeight": "bold",
-        "borderRadius": "8px",
-    },
-],
+        style_data_conditional=[
+            {
+                "if": {"filter_query": '{niveau_emergence} = "Signal faible — tres emergent"', "column_id": "niveau_emergence"},
+                "backgroundColor": "#6B8F71", "color": "white", "fontWeight": "bold",
+            },
+            {
+                "if": {"filter_query": '{niveau_emergence} = "Signal moyen — emergent confirme"', "column_id": "niveau_emergence"},
+                "backgroundColor": "#C4956A", "color": "white", "fontWeight": "bold",
+            },
+            {
+                "if": {"filter_query": '{niveau_emergence} = "Signal fort — commence a percer"', "column_id": "niveau_emergence"},
+                "backgroundColor": "#A26769", "color": "white", "fontWeight": "bold",
+            },
+        ],
         page_size=20,
         sort_action="native",
     )
