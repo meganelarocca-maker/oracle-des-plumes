@@ -24,7 +24,7 @@ df_natio = query("""
 df_annee = query("""
     SELECT date, COUNT(*) as nb_livres
     FROM livres
-    WHERE date IS NOT NULL
+    WHERE date BETWEEN 2023 AND 2026
     GROUP BY date
     ORDER BY date
 """)
