@@ -23,7 +23,9 @@ CARD_STYLE = {
     "textAlign": "center",
 }
 
+langues = query("SELECT DISTINCT langue FROM livres WHERE langue IS NOT NULL ORDER BY langue")
 # Je traduis les codes ISO en noms lisibles
+
 mapping_langues = {
     "en": "Anglais", "eng": "Anglais", "fr": "Français", "fre": "Français",
     "ja": "Japonais", "it": "Italien", "es": "Espagnol", "spa": "Espagnol",

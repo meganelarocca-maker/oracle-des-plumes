@@ -139,12 +139,12 @@ layout = html.Div(
         # Je affiche les graphiques
         html.Div(
             style={
-                "width": "90%",
+                "width": "95%",
                 "display": "flex",
                 "justifyContent": "space-between",
                 "marginTop": "30px",
                 "gap": "20px",
-                "heigth": "35vh", 
+                "heigth": "38vh", 
             },
             children=[
                 html.Div(

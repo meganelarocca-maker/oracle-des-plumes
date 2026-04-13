@@ -26,7 +26,7 @@ layout = html.Div(
             html.Span("✨", style={"marginLeft": "8px"})
         ], style={
             "color": BERRY,
-            "fontSize": "35px",
+            "fontSize": "25px",
             "fontFamily": "Georgia, serif",
             "marginBottom": "25px",
             "fontSize": "45px"
