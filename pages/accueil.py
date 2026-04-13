@@ -5,13 +5,13 @@ from src.db import query
 
 dash.register_page(__name__, path="/")
 
-# Requetes SQL
+# Je récupère les KPIs depuis la base
 nb_livres = query("SELECT COUNT(*) as nb FROM livres")["nb"][0]
 nb_auteurs = query("SELECT COUNT(DISTINCT auteurs) as nb FROM livres")["nb"][0]
 nb_nationalites = query("SELECT COUNT(DISTINCT nationalite) as nb FROM livres WHERE nationalite IS NOT NULL")["nb"][0]
 note_moyenne = query("SELECT ROUND(AVG(note)::numeric, 1) as nb FROM livres WHERE note IS NOT NULL")["nb"][0]
 
-# Donnees graphiques
+# Je récupère les données pour les graphiques
 df_natio = query("""
     SELECT nationalite, COUNT(*) as nb_livres
     FROM livres
@@ -29,7 +29,7 @@ df_annee = query("""
     ORDER BY date
 """)
 
-# Graphiques
+# Je construis le graphique des nationalités
 fig_natio = px.bar(
     df_natio,
     x="nb_livres",
@@ -49,9 +49,10 @@ fig_natio.update_layout(
     margin=dict(l=10, r=20, t=50, b=30)
 )
 fig_natio.update_traces(
-    hoverlabel=dict(bgcolor="#D4AF37", font_color="white",font_size=18)
+    hoverlabel=dict(bgcolor="#D4AF37", font_color="white", font_size=18)
 )
 
+# Je construis le graphique des livres par année
 fig_annee = px.bar(
     df_annee,
     x="date",
@@ -65,12 +66,12 @@ fig_annee.update_layout(
     plot_bgcolor="rgba(255,248,235,0.0)",
     font=dict(family="Georgia, serif", color="#4A1942", size=18),
     title_font=dict(size=24),
-    xaxis=dict(type="category",tickfont=dict(size=16)),
+    xaxis=dict(type="category", tickfont=dict(size=16)),
     yaxis=dict(tickfont=dict(size=16)),
     margin=dict(l=10, r=20, t=50, b=30)
 )
 fig_annee.update_traces(
-    hoverlabel=dict(bgcolor="#D4AF37", font_color="white",font_size=18)
+    hoverlabel=dict(bgcolor="#D4AF37", font_color="white", font_size=18)
 )
 
 CARD_STYLE = {
@@ -88,7 +89,7 @@ GRAPH_CONTAINER = {
     "borderRadius": "10px",
     "overflow": "hidden",
     "boxShadow": "0px 4px 10px rgba(0,0,0,0.2)",
-    "height": "40vh",  # Je réduis de 55vh à 40vh
+    "height": "35vh",  # Je réduis pour que tout rentre sans scroller
 }
 
 BERRY = "#5a3b2a"
@@ -100,7 +101,7 @@ layout = html.Div(
         "alignItems": "center",
         "paddingTop": "50px",
         "minHeight": "100vh",
-        "paddingBottom": "50px",
+        "paddingBottom": "80px",  # Je donne de l'air en bas
     },
     children=[
 
@@ -110,7 +111,7 @@ layout = html.Div(
             html.Span("✨", style={"marginLeft": "8px"})],
             style={"color": BERRY, "marginBottom": "50px", "fontSize": "32px", "fontFamily": "Georgia, serif", "font-size":"45px"}),
 
-        # KPIs
+        # Je affiche les KPIs
         html.Div(
             style={
                 "width": "80%",
@@ -139,7 +140,7 @@ layout = html.Div(
             ]
         ),
 
-        # Graphiques
+        # Je affiche les graphiques
         html.Div(
             style={
                 "width": "80%",
