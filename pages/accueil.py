@@ -88,7 +88,7 @@ GRAPH_CONTAINER = {
     "borderRadius": "10px",
     "overflow": "hidden",
     "boxShadow": "0px 4px 10px rgba(0,0,0,0.2)",
-    "height": "55vh",
+    "height": "40vh",  # Je réduis de 55vh à 40vh
 }
 
 BERRY = "#5a3b2a"
