@@ -16,7 +16,10 @@ CARD_STYLE = {
     "padding": "10px",
     "boxShadow": "0px 4px 12px rgba(0,0,0,0.2)",
     "border": "1px solid rgba(196, 149, 106, 0.4)",
-    "width": "220px",
+    "width": "170px",
+    "flexGrow": "1",        # Je m'étire pour remplir l'espace
+    "flexBasis": "170px",   # Ma taille de base
+    "maxWidth": "200px",    # Je ne dépasse pas cette largeur
     "textAlign": "center",
 }
 
