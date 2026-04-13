@@ -1,17 +1,11 @@
 import dash
-from dash import html, dcc
+from dash import html, dcc, callback, Output, Input
 import plotly.express as px
 from src.db import query
 
 dash.register_page(__name__, path="/")
 
-# Requetes SQL
-nb_livres = query("SELECT COUNT(*) as nb FROM livres")["nb"][0]
-nb_auteurs = query("SELECT COUNT(DISTINCT auteurs) as nb FROM livres")["nb"][0]
-nb_nationalites = query("SELECT COUNT(DISTINCT nationalite) as nb FROM livres WHERE nationalite IS NOT NULL")["nb"][0]
-note_moyenne = query("SELECT ROUND(AVG(note)::numeric, 1) as nb FROM livres WHERE note IS NOT NULL")["nb"][0]
-
-# Donnees graphiques
+# Je récupère les données graphiques au démarrage
 df_natio = query("""
     SELECT nationalite, COUNT(*) as nb_livres
     FROM livres
@@ -24,12 +18,12 @@ df_natio = query("""
 df_annee = query("""
     SELECT date, COUNT(*) as nb_livres
     FROM livres
-    WHERE date IS NOT NULL
+    WHERE date BETWEEN 2023 AND 2026
     GROUP BY date
     ORDER BY date
 """)
 
-# Graphiques
+# Je construis le graphique des nationalités
 fig_natio = px.bar(
     df_natio,
     x="nb_livres",
@@ -49,9 +43,10 @@ fig_natio.update_layout(
     margin=dict(l=10, r=20, t=50, b=30)
 )
 fig_natio.update_traces(
-    hoverlabel=dict(bgcolor="#D4AF37", font_color="white",font_size=18)
+    hoverlabel=dict(bgcolor="#D4AF37", font_color="white", font_size=18)
 )
 
+# Je construis le graphique des livres par année
 fig_annee = px.bar(
     df_annee,
     x="date",
@@ -65,12 +60,12 @@ fig_annee.update_layout(
     plot_bgcolor="rgba(255,248,235,0.0)",
     font=dict(family="Georgia, serif", color="#4A1942", size=18),
     title_font=dict(size=24),
-    xaxis=dict(type="category",tickfont=dict(size=16)),
+    xaxis=dict(type="category", tickfont=dict(size=16)),
     yaxis=dict(tickfont=dict(size=16)),
     margin=dict(l=10, r=20, t=50, b=30)
 )
 fig_annee.update_traces(
-    hoverlabel=dict(bgcolor="#D4AF37", font_color="white",font_size=18)
+    hoverlabel=dict(bgcolor="#D4AF37", font_color="white", font_size=18)
 )
 
 CARD_STYLE = {
@@ -88,7 +83,7 @@ GRAPH_CONTAINER = {
     "borderRadius": "10px",
     "overflow": "hidden",
     "boxShadow": "0px 4px 10px rgba(0,0,0,0.2)",
-    "height": "55vh",
+    "height": "35vh",
 }
 
 BERRY = "#5a3b2a"
@@ -100,20 +95,22 @@ layout = html.Div(
         "alignItems": "center",
         "paddingTop": "50px",
         "minHeight": "100vh",
-        "paddingBottom": "50px",
+        "paddingBottom": "80px",
     },
     children=[
+        # Je rafraîchis les KPIs toutes les 60 secondes
+        dcc.Interval(id="refresh-kpis", interval=60*1000, n_intervals=0),
 
         html.H2([
             html.Span("✨", style={"marginLeft": "8px"}),
             "Vue d'ensemble du catalogue",
             html.Span("✨", style={"marginLeft": "8px"})],
-            style={"color": BERRY, "marginBottom": "50px", "fontSize": "32px", "fontFamily": "Georgia, serif", "font-size":"45px"}),
+            style={"color": BERRY, "marginBottom": "50px", "fontFamily": "Georgia, serif", "fontSize": "45px"}),
 
-        # KPIs
+        # Je affiche les KPIs dynamiques
         html.Div(
             style={
-                "width": "1750px",
+                "width": "90%",
                 "display": "flex",
                 "justifyContent": "space-between",
                 "gap": "20px",
@@ -122,31 +119,32 @@ layout = html.Div(
             children=[
                 html.Div(style=CARD_STYLE, children=[
                     html.H4("📚 Livres", style={"fontSize": "25px"}),
-                    html.H2(str(nb_livres), style={"fontSize": "48px", "margin": "0"})
+                    html.H2(id="kpi-livres", style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
                     html.H4("✍️ Auteurs", style={"fontSize": "25px"}),
-                    html.H2(str(nb_auteurs), style={"fontSize": "48px", "margin": "0"})
+                    html.H2(id="kpi-auteurs", style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
                     html.H4("🌍 Nationalités", style={"fontSize": "25px"}),
-                    html.H2(str(nb_nationalites), style={"fontSize": "48px", "margin": "0"})
+                    html.H2(id="kpi-nationalites", style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
                     html.H4("⭐ Note moyenne", style={"fontSize": "25px"}),
-                    html.H2(str(note_moyenne), style={"fontSize": "48px", "margin": "0"})
+                    html.H2(id="kpi-note", style={"fontSize": "48px", "margin": "0"})
                 ]),
             ]
         ),
 
-        # Graphiques
+        # Je affiche les graphiques
         html.Div(
             style={
-                "width": "1750px",
+                "width": "95%",
                 "display": "flex",
                 "justifyContent": "space-between",
                 "marginTop": "30px",
                 "gap": "20px",
+                "heigth": "38vh", 
             },
             children=[
                 html.Div(
@@ -161,3 +159,19 @@ layout = html.Div(
         )
     ]
 )
+
+
+@callback(
+    Output("kpi-livres", "children"),
+    Output("kpi-auteurs", "children"),
+    Output("kpi-nationalites", "children"),
+    Output("kpi-note", "children"),
+    Input("refresh-kpis", "n_intervals")
+)
+def update_kpis(n):
+    # Je recharge les KPIs depuis la base à chaque intervalle
+    nb_livres = query("SELECT COUNT(*) as nb FROM livres")["nb"][0]
+    nb_auteurs = query("SELECT COUNT(DISTINCT auteurs) as nb FROM livres")["nb"][0]
+    nb_nationalites = query("SELECT COUNT(DISTINCT nationalite) as nb FROM livres WHERE nationalite IS NOT NULL")["nb"][0]
+    note_moyenne = query("SELECT ROUND(AVG(note)::numeric, 1) as nb FROM livres WHERE note IS NOT NULL")["nb"][0]
+    return str(nb_livres), str(nb_auteurs), str(nb_nationalites), str(note_moyenne)

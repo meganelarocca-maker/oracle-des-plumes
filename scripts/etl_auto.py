@@ -211,7 +211,14 @@ def enrichir_covers():
             
             if not docs:
                 continue
-                
+            
+                    # Je filtre les éditeurs académiques et non-romanesques
+            editeurs_exclus = ['springer', 'elsevier', 'wiley', 'archaeopress', 'sbl press', 
+                            'crc press', 'narr francke', 'trans tech']
+            if editeur and any(e in editeur.lower() for e in editeurs_exclus):
+                skips += 1
+                continue
+            
             doc = docs[0]
             cover_i = doc.get("cover_i")
             isbn_list = doc.get("isbn", [])

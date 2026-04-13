@@ -9,7 +9,7 @@ load_dotenv()
 def get_connection():
     return psycopg2.connect(
         host=os.getenv("POSTGRES_HOST"),
-        port=os.getenv("POSTGRES_PORT"),
+        port=6543, #Je force le port pooler Supabase car je n'y arrive pas en manuel 
         dbname=os.getenv("POSTGRES_DB"),
         user=os.getenv("POSTGRES_USER"),
         password=os.getenv("POSTGRES_PASSWORD")

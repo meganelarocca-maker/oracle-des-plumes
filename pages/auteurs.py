@@ -98,9 +98,9 @@ def get_df(nationalite, emergence):
         FROM livres l
         WHERE l.note IS NOT NULL AND l.date >= '2023'
         GROUP BY l.auteurs, l.nationalite, l.langue
-        HAVING COUNT(*) <= 2 AND SUM(l.nb_avis) BETWEEN 30 AND 300 AND AVG(l.note) >= 4.2
+        HAVING COUNT(*) <= 2 AND SUM(l.nb_avis) >= 30 AND AVG(l.note) >= 4.2
         ORDER BY score_emergence DESC
-        LIMIT 50
+        LIMIT 100
     """
 
     df = query(sql)
