@@ -150,6 +150,38 @@ Le script genere des logs horodates dans le terminal :
 - Sauvegarder les logs dans un fichier dans `logs/`
 - Alertes email en cas d'erreur
 
----
+
+## Data Cleaning — Suppression livres non-romanesques (Avril 2026)
+
+### Contexte
+Lors de l'analyse du catalogue, 32 livres non-romanesques ont été identifiés
+et supprimés de la base : actes de conférence, manuels académiques, guides
+astronomiques, annuaires politiques et manuels médicaux.
+
+### Méthode
+Identification par éditeur (Springer, Archaeopress, Elsevier, SBL Press, CRC Press)
+et par titre (proceedings, guide to the night sky, automation, computer vision).
+
+### Impact
+| Avant | Après |
+|---|---|
+| 1416 livres | 1384 livres |
+| 1151 auteurs | À vérifier |
+
+### Requête exécutée
+```sql
+DELETE FROM livres
+WHERE id IN (
+    2791, 2793, 2800, 2802, 2816, 2817, 2824, 2825, 2872, 2890,
+    2919, 3706, 3700, 3702, 3710, 3712, 3715, 3716, 4187, 2792,
+    2803, 2806, 2809, 2818, 2819, 2821, 2822, 2869, 2891, 2972,
+    3718, 3868
+);
+```
+
+### Prévention future
+Ajouter dans `nettoyer_et_inserer()` un filtre sur les éditeurs académiques
+connus pour éviter leur insertion lors des prochains runs ETL.
+
 
 *Documentation produite dans le cadre du projet L'Oracle des Plumes — DataMuse pour Editions Novae.*
