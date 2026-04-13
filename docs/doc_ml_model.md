@@ -109,7 +109,21 @@ Le tableau est trie par niveau d'emergence puis par probabilite decroissante :
 3. Signal fort — commence a percer
 
 ---
+## Paramètres de sélection des auteurs (auteurs.py)
 
+| Paramètre | Valeur | Justification |
+|---|---|---|
+| `nb_avis minimum` | 30 | Seuil de visibilité minimale |
+| `note minimale` | 4.2 | Qualité requise |
+| `nb_livres max` | 2 | Critère d'émergence |
+| `LIMIT` | 100 | Augmenté de 50 → 100 pour permettre l'apparition du Signal fort (nb_avis > 300) |
+
+### Correction du filtre Signal fort (Avril 2026)
+Le filtre HAVING limitait initialement nb_avis à 300 max, rendant le niveau 
+"Signal fort" inaccessible par construction. Correction : suppression de la 
+borne supérieure, la limite est désormais >= 30 uniquement.
+
+---
 ## Limites connues
 
 - Dataset de 689 livres avec notes — relativement petit pour du ML
