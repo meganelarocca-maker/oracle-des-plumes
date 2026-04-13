@@ -9,7 +9,6 @@ BERRY = "#4A1942"
 GOLD = "#C4956A"
 MARRON = "rgba(141, 73, 37, 0.85)"
 
-# Je fixe la taille des cartes pour 2 lignes de 6
 CARD_STYLE = {
     "backgroundColor": "rgba(255, 248, 235, 0.95)",
     "borderRadius": "10px",
@@ -17,32 +16,24 @@ CARD_STYLE = {
     "boxShadow": "0px 4px 12px rgba(0,0,0,0.2)",
     "border": "1px solid rgba(196, 149, 106, 0.4)",
     "width": "170px",
-    "flexGrow": "1",        # Je m'étire pour remplir l'espace
-    "flexBasis": "180px",   # Ma taille de base
-    "maxWidth": "210px",    # Je ne dépasse pas cette largeur
+    "flexGrow": "1",
+    "flexBasis": "180px",
+    "maxWidth": "210px",
     "textAlign": "center",
 }
 
-langues = query("SELECT DISTINCT langue FROM livres WHERE langue IS NOT NULL ORDER BY langue")
-# Je traduis les codes ISO en noms lisibles
-
-mapping_langues = {
+MAPPING_LANGUES = {
     "en": "Anglais", "eng": "Anglais", "fr": "Français", "fre": "Français",
     "ja": "Japonais", "it": "Italien", "es": "Espagnol", "spa": "Espagnol",
     "nl": "Néerlandais", "dut": "Néerlandais", "de": "Allemand", "ger": "Allemand",
     "pt": "Portugais", "por": "Portugais", "pt-BR": "Portugais (Brésil)",
     "ar": "Arabe", "ara": "Arabe", "tr": "Turc", "tur": "Turc", "sv": "Suédois"
 }
-options_langues = [{"label": mapping_langues.get(l, l), "value": l} for l in langues["langue"]]
-
-dates = query("SELECT DISTINCT date FROM livres WHERE date IS NOT NULL ORDER BY date")
-options_dates = [{"label": l, "value": l} for l in dates["date"]]
 
 PLACEHOLDER = "/assets/no_cover.png"
 
 layout = html.Div(
     children=[
-
         html.H2(
             [
                 html.Span("✨", style={"marginRight": "8px"}),
@@ -62,8 +53,8 @@ layout = html.Div(
         html.Div(
             children=[
                 html.Span("Filtres:", style={"color": "white", "fontFamily": "Georgia, serif", "fontSize": "25px", "marginRight": "15px"}),
-                dcc.Dropdown(id="filtre-langue", options=options_langues, placeholder="Langue", clearable=True, style={"width": "250px", "fontSize": "20px"}),
-                dcc.Dropdown(id="filtre-annee", options=options_dates, placeholder="Année", clearable=True, style={"width": "250px", "fontSize": "20px"}),
+                dcc.Dropdown(id="filtre-langue", options=[], placeholder="Langue", clearable=True, style={"width": "250px", "fontSize": "20px"}),
+                dcc.Dropdown(id="filtre-annee", options=[], placeholder="Année", clearable=True, style={"width": "250px", "fontSize": "20px"}),
                 html.Div(
                     children=[
                         html.Span("Note minimale", style={"color": "white", "fontSize": "20px", "marginRight": "10px", "fontFamily": "Georgia, serif"}),
@@ -100,7 +91,7 @@ layout = html.Div(
             style={
                 "display": "flex",
                 "flexWrap": "wrap",
-                "justifyContent": "space-between", 
+                "justifyContent": "space-between",
                 "backgroundColor": "rgba(255,255,255,0.6)",
                 "padding": "20px 25px",
                 "borderRadius": "10px",
@@ -124,6 +115,22 @@ layout = html.Div(
     ],
     style={"padding": "40px 30px", "minHeight": "100vh"}
 )
+
+
+@callback(
+    Output("filtre-langue", "options"),
+    Output("filtre-annee", "options"),
+    Input("filtre-langue", "id")
+)
+def charger_options(_):
+    # Je charge les options dynamiquement depuis la base à chaque chargement
+    langues = query("SELECT DISTINCT langue FROM livres WHERE langue IS NOT NULL ORDER BY langue")
+    options_langues = [{"label": MAPPING_LANGUES.get(l, l), "value": l} for l in langues["langue"]]
+
+    dates = query("SELECT DISTINCT date FROM livres WHERE date IS NOT NULL ORDER BY date")
+    options_dates = [{"label": l, "value": l} for l in dates["date"]]
+
+    return options_langues, options_dates
 
 
 @callback(
@@ -181,7 +188,7 @@ def afficher_livres(langue, annee, note, page):
                     src=cover,
                     style={
                         "width": "100%",
-                        "height": "180px",  # Je fixe la hauteur pour des images nettes
+                        "height": "180px",
                         "objectFit": "cover",
                         "borderRadius": "8px"
                     }
