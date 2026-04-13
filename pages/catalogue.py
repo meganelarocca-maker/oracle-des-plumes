@@ -188,8 +188,8 @@ def afficher_livres(langue, annee, note, page):
                     src=cover,
                     style={
                         "width": "100%",
-                        "height": "185px",
-                        "objectFit": "cover",
+                        "height": "220px",
+                        "objectFit": "contain",
                         "borderRadius": "8px"
                     }
                 ),
