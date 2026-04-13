@@ -154,7 +154,7 @@ def afficher_livres(langue, annee, note, page):
         sql += f" AND note >= {note}"
 
     # Je limite à 12 livres par page — 2 lignes de 6
-    sql += f" ORDER BY RANDOM() LIMIT 12 OFFSET {page * 20}"
+    sql += f" ORDER BY RANDOM() LIMIT 20 OFFSET {page * 20}"
 
     df = query(sql)
     cartes = []
