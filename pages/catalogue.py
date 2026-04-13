@@ -15,7 +15,7 @@ CARD_STYLE = {
     "padding": "10px",
     "boxShadow": "0px 4px 12px rgba(0,0,0,0.2)",
     "border": "1px solid rgba(196, 149, 106, 0.4)",
-    "width": "170px",
+    "width": "200px",
     "flexGrow": "1",
     "flexBasis": "180px",
     "maxWidth": "210px",
@@ -188,7 +188,7 @@ def afficher_livres(langue, annee, note, page):
                     src=cover,
                     style={
                         "width": "100%",
-                        "height": "180px",
+                        "height": "250px",
                         "objectFit": "cover",
                         "borderRadius": "8px"
                     }
