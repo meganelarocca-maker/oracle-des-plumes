@@ -88,7 +88,7 @@ layout = html.Div(
             style={
                 "display": "flex",
                 "flexWrap": "wrap",
-                "justifyContent": "flex-start", 
+                "justifyContent": "space-between", 
                 "backgroundColor": "rgba(255,255,255,0.6)",
                 "padding": "20px 25px",
                 "borderRadius": "10px",
