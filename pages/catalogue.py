@@ -9,13 +9,16 @@ BERRY = "#4A1942"
 GOLD = "#C4956A"
 MARRON = "rgba(141, 73, 37, 0.85)"
 
+# Je remplace CARD_STYLE
 CARD_STYLE = {
     "backgroundColor": "rgba(255, 248, 235, 0.95)",
     "borderRadius": "10px",
     "padding": "10px",
     "boxShadow": "0px 4px 12px rgba(0,0,0,0.2)",
     "border": "1px solid rgba(196, 149, 106, 0.4)",
-    "width": "220px",
+    "flex": "1",           # Je laisse la carte s'étirer
+    "minWidth": "200px",   # Je fixe un minimum
+    "maxWidth": "25%",     # Je limite à 4 par ligne max
     "textAlign": "center",
 }
 
@@ -145,9 +148,7 @@ layout = html.Div(
                 "borderRadius": "10px",
                 "marginBottom": "15px",
                 "backdropFilter": "blur(4px)",
-                "gap": "20px",
-                "maxHeight": "65vh",  # Je limite la hauteur pour éviter le scroll
-                "overflow": "hidden"  # Je cache ce qui dépasse
+                "gap": "20px"
             }
         ),
 
@@ -274,7 +275,7 @@ def afficher_livres(langue, annee, note, page):
                     src=cover,
                     style={
                         "width": "100%",
-                        "height": "20vh",  # Je adapte la hauteur à l'écran
+                        "height": "20*5vh",  # J'adapte la hauteur à l'écran
                         "objectFit": "cover",
                         "borderRadius": "8px"
                     }
