@@ -43,7 +43,7 @@ Pour chaque livre extrait :
 1. Extraction des metadonnees (titre, auteurs, date, editeur, langue, note, isbn)
 2. Filtres qualite :
    - Titre et auteur obligatoires
-   - Date >= annee en cours (livres recents uniquement)
+   - Date >= année courante - 2 (fenêtre glissante — les livres de plus de 2 ans sont exclus)
 3. Verification d'unicite avant insertion :
    - Si ISBN present → recherche par ISBN
    - Si pas d'ISBN → recherche par titre + auteurs

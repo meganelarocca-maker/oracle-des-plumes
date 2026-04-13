@@ -105,7 +105,8 @@ def nettoyer_et_inserer(livres_bruts):
             skips += 1
             continue
 
-        if not date or int(date) < 2024:
+        annee_courante = datetime.today().year
+        if not date or int(date) < annee_courante - 2:  # Je garde une fenêtre glissante de 2 an
             skips += 1
             continue
 
