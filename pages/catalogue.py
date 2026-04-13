@@ -18,7 +18,7 @@ CARD_STYLE = {
     "border": "1px solid rgba(196, 149, 106, 0.4)",
     "flex": "1",           # Je laisse la carte s'étirer
     "minWidth": "200px",   # Je fixe un minimum
-    "maxWidth": "25%",     # Je limite à 4 par ligne max
+    "maxWidth": "25%",     # Je limite à 5 par ligne max
     "textAlign": "center",
 }
 
@@ -259,7 +259,7 @@ def afficher_livres(langue, annee, note, page):
         sql += f" AND note >= {note}"
 
     # Je limite à 10 livres par page pour tenir dans l'écran
-    sql += f" ORDER BY RANDOM() LIMIT 10 OFFSET {page * 10}"
+    sql += f" ORDER BY RANDOM() LIMIT 10 OFFSET {page * 25}"
 
     df = query(sql)
 
@@ -275,7 +275,7 @@ def afficher_livres(langue, annee, note, page):
                     src=cover,
                     style={
                         "width": "100%",
-                        "height": "20*5vh",  # J'adapte la hauteur à l'écran
+                        "height": "calc((100vh - 350px) / 4)",,  # Je divise par 4 lignes au lieu de 2
                         "objectFit": "cover",
                         "borderRadius": "8px"
                     }
