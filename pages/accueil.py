@@ -144,6 +144,7 @@ layout = html.Div(
                 "justifyContent": "space-between",
                 "marginTop": "30px",
                 "gap": "20px",
+                "heigth": "35vh", 
             },
             children=[
                 html.Div(

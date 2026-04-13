@@ -18,13 +18,20 @@ CARD_STYLE = {
     "border": "1px solid rgba(196, 149, 106, 0.4)",
     "width": "170px",
     "flexGrow": "1",        # Je m'étire pour remplir l'espace
-    "flexBasis": "170px",   # Ma taille de base
-    "maxWidth": "200px",    # Je ne dépasse pas cette largeur
+    "flexBasis": "180px",   # Ma taille de base
+    "maxWidth": "210px",    # Je ne dépasse pas cette largeur
     "textAlign": "center",
 }
 
-langues = query("SELECT DISTINCT langue FROM livres WHERE langue IS NOT NULL ORDER BY langue")
-options_langues = [{"label": l, "value": l} for l in langues["langue"]]
+# Je traduis les codes ISO en noms lisibles
+mapping_langues = {
+    "en": "Anglais", "eng": "Anglais", "fr": "Français", "fre": "Français",
+    "ja": "Japonais", "it": "Italien", "es": "Espagnol", "spa": "Espagnol",
+    "nl": "Néerlandais", "dut": "Néerlandais", "de": "Allemand", "ger": "Allemand",
+    "pt": "Portugais", "por": "Portugais", "pt-BR": "Portugais (Brésil)",
+    "ar": "Arabe", "ara": "Arabe", "tr": "Turc", "tur": "Turc", "sv": "Suédois"
+}
+options_langues = [{"label": mapping_langues.get(l, l), "value": l} for l in langues["langue"]]
 
 dates = query("SELECT DISTINCT date FROM livres WHERE date IS NOT NULL ORDER BY date")
 options_dates = [{"label": l, "value": l} for l in dates["date"]]
@@ -172,7 +179,7 @@ def afficher_livres(langue, annee, note, page):
                     src=cover,
                     style={
                         "width": "100%",
-                        "height": "280px",  # Je fixe la hauteur pour des images nettes
+                        "height": "180px",  # Je fixe la hauteur pour des images nettes
                         "objectFit": "cover",
                         "borderRadius": "8px"
                     }

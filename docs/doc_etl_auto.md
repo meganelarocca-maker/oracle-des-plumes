@@ -165,8 +165,8 @@ et par titre (proceedings, guide to the night sky, automation, computer vision).
 ### Impact
 | Avant | Après |
 |---|---|
-| 1416 livres | 1384 livres |
-| 1151 auteurs | À vérifier |
+| 1384 livres | 1384 livres |
+| 1121 auteurs | À vérifier |
 
 ### Requête exécutée
 ```sql
@@ -179,9 +179,14 @@ WHERE id IN (
 );
 ```
 
+## Fix Signal Fort — Auteurs Emergents (Avril 2026)
+Correction du filtre HAVING qui limitait nb_avis à 300 max, 
+rendant le niveau "Signal fort" inaccessible. 
+Limite relevée à 100 auteurs affichés.
+
 ### Prévention future
 Ajouter dans `nettoyer_et_inserer()` un filtre sur les éditeurs académiques
-connus pour éviter leur insertion lors des prochains runs ETL.
+connus pour éviter leur insertion lors des prochains runs ETL.-FAIT S
 
 
 *Documentation produite dans le cadre du projet L'Oracle des Plumes — DataMuse pour Editions Novae.*
