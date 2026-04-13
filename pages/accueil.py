@@ -1,17 +1,11 @@
 import dash
-from dash import html, dcc
+from dash import html, dcc, callback, Output, Input
 import plotly.express as px
 from src.db import query
 
 dash.register_page(__name__, path="/")
 
-# Je récupère les KPIs depuis la base
-nb_livres = query("SELECT COUNT(*) as nb FROM livres")["nb"][0]
-nb_auteurs = query("SELECT COUNT(DISTINCT auteurs) as nb FROM livres")["nb"][0]
-nb_nationalites = query("SELECT COUNT(DISTINCT nationalite) as nb FROM livres WHERE nationalite IS NOT NULL")["nb"][0]
-note_moyenne = query("SELECT ROUND(AVG(note)::numeric, 1) as nb FROM livres WHERE note IS NOT NULL")["nb"][0]
-
-# Je récupère les données pour les graphiques
+# Je récupère les données graphiques au démarrage
 df_natio = query("""
     SELECT nationalite, COUNT(*) as nb_livres
     FROM livres
@@ -89,7 +83,7 @@ GRAPH_CONTAINER = {
     "borderRadius": "10px",
     "overflow": "hidden",
     "boxShadow": "0px 4px 10px rgba(0,0,0,0.2)",
-    "height": "30vh",  # Je réduis pour que tout rentre sans scroller
+    "height": "35vh",
 }
 
 BERRY = "#5a3b2a"
@@ -101,20 +95,22 @@ layout = html.Div(
         "alignItems": "center",
         "paddingTop": "50px",
         "minHeight": "100vh",
-        "paddingBottom": "80px",  # Je donne de l'air en bas
+        "paddingBottom": "80px",
     },
     children=[
+        # Je rafraîchis les KPIs toutes les 60 secondes
+        dcc.Interval(id="refresh-kpis", interval=60*1000, n_intervals=0),
 
         html.H2([
             html.Span("✨", style={"marginLeft": "8px"}),
             "Vue d'ensemble du catalogue",
             html.Span("✨", style={"marginLeft": "8px"})],
-            style={"color": BERRY, "marginBottom": "50px", "fontSize": "32px", "fontFamily": "Georgia, serif", "font-size":"45px"}),
+            style={"color": BERRY, "marginBottom": "50px", "fontFamily": "Georgia, serif", "fontSize": "45px"}),
 
-        # Je affiche les KPIs
+        # Je affiche les KPIs dynamiques
         html.Div(
             style={
-                "width": "80%",
+                "width": "90%",
                 "display": "flex",
                 "justifyContent": "space-between",
                 "gap": "20px",
@@ -123,19 +119,19 @@ layout = html.Div(
             children=[
                 html.Div(style=CARD_STYLE, children=[
                     html.H4("📚 Livres", style={"fontSize": "25px"}),
-                    html.H2(str(nb_livres), style={"fontSize": "48px", "margin": "0"})
+                    html.H2(id="kpi-livres", style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
                     html.H4("✍️ Auteurs", style={"fontSize": "25px"}),
-                    html.H2(str(nb_auteurs), style={"fontSize": "48px", "margin": "0"})
+                    html.H2(id="kpi-auteurs", style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
                     html.H4("🌍 Nationalités", style={"fontSize": "25px"}),
-                    html.H2(str(nb_nationalites), style={"fontSize": "48px", "margin": "0"})
+                    html.H2(id="kpi-nationalites", style={"fontSize": "48px", "margin": "0"})
                 ]),
                 html.Div(style=CARD_STYLE, children=[
                     html.H4("⭐ Note moyenne", style={"fontSize": "25px"}),
-                    html.H2(str(note_moyenne), style={"fontSize": "48px", "margin": "0"})
+                    html.H2(id="kpi-note", style={"fontSize": "48px", "margin": "0"})
                 ]),
             ]
         ),
@@ -143,7 +139,7 @@ layout = html.Div(
         # Je affiche les graphiques
         html.Div(
             style={
-                "width": "80%",
+                "width": "90%",
                 "display": "flex",
                 "justifyContent": "space-between",
                 "marginTop": "30px",
@@ -162,3 +158,19 @@ layout = html.Div(
         )
     ]
 )
+
+
+@callback(
+    Output("kpi-livres", "children"),
+    Output("kpi-auteurs", "children"),
+    Output("kpi-nationalites", "children"),
+    Output("kpi-note", "children"),
+    Input("refresh-kpis", "n_intervals")
+)
+def update_kpis(n):
+    # Je recharge les KPIs depuis la base à chaque intervalle
+    nb_livres = query("SELECT COUNT(*) as nb FROM livres")["nb"][0]
+    nb_auteurs = query("SELECT COUNT(DISTINCT auteurs) as nb FROM livres")["nb"][0]
+    nb_nationalites = query("SELECT COUNT(DISTINCT nationalite) as nb FROM livres WHERE nationalite IS NOT NULL")["nb"][0]
+    note_moyenne = query("SELECT ROUND(AVG(note)::numeric, 1) as nb FROM livres WHERE note IS NOT NULL")["nb"][0]
+    return str(nb_livres), str(nb_auteurs), str(nb_nationalites), str(note_moyenne)
