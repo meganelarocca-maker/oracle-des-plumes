@@ -89,7 +89,7 @@ GRAPH_CONTAINER = {
     "borderRadius": "10px",
     "overflow": "hidden",
     "boxShadow": "0px 4px 10px rgba(0,0,0,0.2)",
-    "height": "35vh",  # Je réduis pour que tout rentre sans scroller
+    "height": "30vh",  # Je réduis pour que tout rentre sans scroller
 }
 
 BERRY = "#5a3b2a"
