@@ -16,7 +16,7 @@ CARD_STYLE = {
     "padding": "10px",
     "boxShadow": "0px 4px 12px rgba(0,0,0,0.2)",
     "border": "1px solid rgba(196, 149, 106, 0.4)",
-    "width": "170px",
+    "width": "220px",
     "textAlign": "center",
 }
 
@@ -154,7 +154,7 @@ def afficher_livres(langue, annee, note, page):
         sql += f" AND note >= {note}"
 
     # Je limite à 12 livres par page — 2 lignes de 6
-    sql += f" ORDER BY RANDOM() LIMIT 12 OFFSET {page * 12}"
+    sql += f" ORDER BY RANDOM() LIMIT 12 OFFSET {page * 20}"
 
     df = query(sql)
     cartes = []
@@ -169,7 +169,7 @@ def afficher_livres(langue, annee, note, page):
                     src=cover,
                     style={
                         "width": "100%",
-                        "height": "240px",  # Je fixe la hauteur pour des images nettes
+                        "height": "280px",  # Je fixe la hauteur pour des images nettes
                         "objectFit": "cover",
                         "borderRadius": "8px"
                     }
