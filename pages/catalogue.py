@@ -88,7 +88,7 @@ layout = html.Div(
             style={
                 "display": "flex",
                 "flexWrap": "wrap",
-                "justifyContent": "center",  # Je centre les cartes
+                "justifyContent": "flex-start", 
                 "backgroundColor": "rgba(255,255,255,0.6)",
                 "padding": "20px 25px",
                 "borderRadius": "10px",
@@ -153,7 +153,7 @@ def afficher_livres(langue, annee, note, page):
     if note:
         sql += f" AND note >= {note}"
 
-    # Je limite à 12 livres par page — 2 lignes de 6
+    # Je limite à 20 livres par page
     sql += f" ORDER BY RANDOM() LIMIT 20 OFFSET {page * 20}"
 
     df = query(sql)
