@@ -45,7 +45,7 @@ layout = html.Div(
             }
         ),
 
-        # Bandeau filtres
+        # Je construis le bandeau de filtres
         html.Div(
             children=[
                 html.Span(
@@ -63,10 +63,7 @@ layout = html.Div(
                     options=options_langues,
                     placeholder="Langue",
                     clearable=True,
-                    style={
-                        "width": "250px",
-                        "fontSize": "20px"
-                    }
+                    style={"width": "250px", "fontSize": "20px"}
                 ),
 
                 dcc.Dropdown(
@@ -74,13 +71,9 @@ layout = html.Div(
                     options=options_dates,
                     placeholder="Année",
                     clearable=True,
-                    style={
-                        "width": "250px",
-                        "fontSize": "20px"
-                    }
+                    style={"width": "250px", "fontSize": "20px"}
                 ),
 
-                # Bloc note minimale
                 html.Div(
                     children=[
                         html.Span(
@@ -92,21 +85,20 @@ layout = html.Div(
                                 "fontFamily": "Georgia, serif"
                             }
                         ),
-
                         html.Div(
                             children=[
                                 dcc.Slider(
                                     id="filtre-note",
                                     min=0,
                                     max=5,
-                                    step = 0.5,
+                                    step=0.5,
                                     value=0,
                                     marks={
                                         0: {"label": "0", "style": {"color": "white"}},
                                         1: {"label": "1⭐", "style": {"color": "white", "fontSize": "20px"}},
                                         2: {"label": "2⭐", "style": {"color": "white", "fontSize": "20px"}},
                                         3: {"label": "3⭐", "style": {"color": "white", "fontSize": "20px"}},
-                                        4 :{"label": "4⭐", "style": {"color": "white", "fontSize": "20px"}},
+                                        4: {"label": "4⭐", "style": {"color": "white", "fontSize": "20px"}},
                                         5: {"label": "5⭐", "style": {"color": "white", "fontSize": "20px"}},
                                     }
                                 )
@@ -142,7 +134,7 @@ layout = html.Div(
             }
         ),
 
-        # Grille livres
+        # Je construis la grille de livres
         html.Div(
             id="grille-livres",
             style={
@@ -153,11 +145,13 @@ layout = html.Div(
                 "borderRadius": "10px",
                 "marginBottom": "15px",
                 "backdropFilter": "blur(4px)",
-                "gap": "20px"
+                "gap": "20px",
+                "maxHeight": "65vh",  # Je limite la hauteur pour éviter le scroll
+                "overflow": "hidden"  # Je cache ce qui dépasse
             }
         ),
 
-        # Pagination
+        # Je construis la pagination
         html.Div(
             children=[
                 html.Button(
@@ -175,7 +169,6 @@ layout = html.Div(
                         "fontFamily": "Georgia, serif"
                     }
                 ),
-
                 html.Span(
                     id="numero-page",
                     style={
@@ -186,7 +179,6 @@ layout = html.Div(
                         "fontWeight": "bold"
                     }
                 ),
-
                 html.Button(
                     "Suivant ▶",
                     id="btn-suivant",
@@ -265,7 +257,8 @@ def afficher_livres(langue, annee, note, page):
     if note:
         sql += f" AND note >= {note}"
 
-    sql += f" ORDER BY RANDOM() LIMIT 27 OFFSET {page * 27}"
+    # Je limite à 10 livres par page pour tenir dans l'écran
+    sql += f" ORDER BY RANDOM() LIMIT 10 OFFSET {page * 10}"
 
     df = query(sql)
 
@@ -275,31 +268,31 @@ def afficher_livres(langue, annee, note, page):
         cover = row["cover_url"] if pd.notna(row["cover_url"]) else PLACEHOLDER
 
         carte = html.Div(
-    className="carte",
-    children=[
-        html.Img(
-            src=cover,
-            style={
-                "width": "100%",
-                "height": "280px",
-                "objectFit": "cover",
-                "borderRadius": "8px"
-            }
-        ),
-        html.Div(
-            className="tooltip",
+            className="carte",
             children=[
-                html.P(row["titre"] or "Titre inconnu", className="tooltip-titre"),
-                html.P(row["auteurs"] or "Auteur inconnu", className="tooltip-auteur"),
-                html.P(f"⭐ {round(row['note'], 1)}" if pd.notna(row["note"]) else "Pas de note", className="tooltip-info"),
-                html.P(f"🌍 {row['nationalite']}" if pd.notna(row["nationalite"]) else "", className="tooltip-info"),
-                html.P(f"📅 {row['date']}" if pd.notna(row["date"]) else "", className="tooltip-info"),
-                html.P(f"💬 {int(row['nb_avis'])} avis" if pd.notna(row["nb_avis"]) else "", className="tooltip-info"),
-            ]
+                html.Img(
+                    src=cover,
+                    style={
+                        "width": "100%",
+                        "height": "20vh",  # Je adapte la hauteur à l'écran
+                        "objectFit": "cover",
+                        "borderRadius": "8px"
+                    }
+                ),
+                html.Div(
+                    className="tooltip",
+                    children=[
+                        html.P(row["titre"] or "Titre inconnu", className="tooltip-titre"),
+                        html.P(row["auteurs"] or "Auteur inconnu", className="tooltip-auteur"),
+                        html.P(f"⭐ {round(row['note'], 1)}" if pd.notna(row["note"]) else "Pas de note", className="tooltip-info"),
+                        html.P(f"🌍 {row['nationalite']}" if pd.notna(row["nationalite"]) else "", className="tooltip-info"),
+                        html.P(f"📅 {row['date']}" if pd.notna(row["date"]) else "", className="tooltip-info"),
+                        html.P(f"💬 {int(row['nb_avis'])} avis" if pd.notna(row["nb_avis"]) else "", className="tooltip-info"),
+                    ]
+                )
+            ],
+            style=CARD_STYLE
         )
-    ],
-    style=CARD_STYLE
-)
 
         cartes.append(carte)
 
