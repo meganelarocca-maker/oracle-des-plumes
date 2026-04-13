@@ -113,7 +113,7 @@ layout = html.Div(
         # KPIs
         html.Div(
             style={
-                "width": "1750px",
+                "width": "95%",
                 "display": "flex",
                 "justifyContent": "space-between",
                 "gap": "20px",
@@ -142,7 +142,7 @@ layout = html.Div(
         # Graphiques
         html.Div(
             style={
-                "width": "1750px",
+                "width": "95%",
                 "display": "flex",
                 "justifyContent": "space-between",
                 "marginTop": "30px",
