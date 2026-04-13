@@ -26,10 +26,9 @@ layout = html.Div(
             html.Span("✨", style={"marginLeft": "8px"})
         ], style={
             "color": BERRY,
-            "fontSize": "22px",
+            "fontSize": "30px",
             "fontFamily": "Georgia, serif",
             "marginBottom": "25px",
-            "fontSize": "45px"
         }),
 
         # Bloc 1
@@ -41,7 +40,7 @@ layout = html.Div(
         # Bloc 2
         html.Div([
             html.H3("✨ Comment sont identifiés les auteurs émergents ?", style={"color": BERRY, "fontFamily": TITLE_FONT, "fontSize": "20px"}),
-            html.P("Le score d'un auteur émergent est calculé à partir de plusieurs indicateurs combinés, afin d'évaluer son potentiel éditorial.", style={"fontSize": "25px"}),
+            html.P("Le score d'un auteur émergent est calculé à partir de plusieurs indicateurs combinés, afin d'évaluer son potentiel éditorial.", style={"fontSize": "18px"}),
             html.P("Il prend en compte :", style={"fontSize": "18px"}),
             html.Ul([
                 html.Li("la note moyenne des ouvrages", style={"fontSize": "18px"}),
@@ -90,7 +89,7 @@ layout = html.Div(
         "margin": "0 auto",
         "padding": "40px 30px",
         "fontFamily": BODY_FONT,
-        "fontSize": "25px",
+        "fontSize": "18px",
         "color": "#1E1E1E",
         "minHeight": "100vh",
     }
